@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link'
 import Image from 'next/image'
 import classes from '../../styles/components/events/EventItem.module.css';
+import Button from '../UI/Button';
 
 const EventItem = (props) => {
 
@@ -27,7 +28,7 @@ const EventItem = (props) => {
                     </div>
                 </div>
                 <div className={classes.actions}>
-                    <Link href={`/events/${props.id}`} >Explore the event!</Link>
+                    <Button link={`/events/${props.id}`} >Explore the event!</Button>
                 </div>
             </div>
         </li>
