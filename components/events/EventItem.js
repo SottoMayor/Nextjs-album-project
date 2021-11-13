@@ -1,6 +1,5 @@
 import React from 'react';
-import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/image';
 import classes from '../../styles/components/events/EventItem.module.css';
 import Button from '../UI/Button';
 import DateIcon from '../icons/dateIcon';

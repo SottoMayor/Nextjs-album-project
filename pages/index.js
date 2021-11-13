@@ -8,7 +8,6 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1>Hello from NextJs!</h1>
       <EventList items={featuredEvents} />
     </div>
   )
