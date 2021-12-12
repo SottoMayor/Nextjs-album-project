@@ -1,6 +1,6 @@
 import styles from '../styles/Home.module.css';
 import { getFeaturedEvents } from '../helpers/api-utils';
-import EventList from '../components/events/EventList'
+import EventList from '../components/events/EventList';
 
 export default function Home(props) {
 
@@ -20,6 +20,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       featuredEvents: featuredEvents
-    }
+    },
+    revalidate: 3600
   }
 }

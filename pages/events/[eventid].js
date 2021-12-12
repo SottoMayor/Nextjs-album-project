@@ -2,15 +2,22 @@ import React, { Fragment } from 'react';
 import EventContent from '../../components/event-detail/EventContent';
 import EventLogistics from '../../components/event-detail/EventLogistics';
 import EventSummary from '../../components/event-detail/EventSummary';
+import AlertError from '../../components/UI/AlertError';
+import Spinner from '../../components/UI/Spinner';
 
-import { getEventById, getAllEvents } from '../../helpers/api-utils';
+import { getEventById, getFeaturedEvents } from '../../helpers/api-utils';
 
 const EventId = (props) => {
 
     const { eventData } = props;
 
     if(!eventData) {
-        return <p>Event not found!</p>
+        return (
+           //<Spinner /> 
+            <AlertError>  
+                <p>Event not found!</p>
+            </AlertError>
+        )
     }
 
     return (
@@ -33,14 +40,15 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             eventData,
-        }
+        },
+        revalidate: 60
     }
 
 }
 
 export const getStaticPaths = async () => {
 
-    const allEvents = await getAllEvents();
+    const allEvents = await getFeaturedEvents();
 
     const mappedPaths = allEvents.map(event => {
         return { params: {eventid: event.id} }
@@ -48,7 +56,9 @@ export const getStaticPaths = async () => {
 
     return {
         paths: mappedPaths,
-        fallback: false
+        fallback: 'blocking',
+        //fallback: true
+
     }
 
 }
