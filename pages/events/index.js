@@ -3,14 +3,14 @@ import EventList from '../../components/events/EventList';
 import EventSearch from '../../components/events/EventSearch';
 import { useRouter } from 'next/router';
 
-import { getAllEvents } from '../../dummy-data';
+import { getAllEvents } from '../../helpers/api-utils';
 
-const index = () => {
+const index = (props) => {
+
+    const { allEvents } = props;
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter();
-
-    const allEvents = getAllEvents();
 
     const captureYearMonthHandler = (data) => {
         const { month, year } = data;
@@ -23,6 +23,19 @@ const index = () => {
             <EventList items={allEvents} />
         </Fragment>
     )
+}
+
+export const getStaticProps = async () => {
+
+    const allEvents = await getAllEvents();
+
+    return {
+        props: {
+            allEvents
+        },
+        revalidate: 60
+    }
+
 }
 
 export default index
