@@ -1,17 +1,13 @@
 import React, { Fragment } from 'react';
-import { useRouter } from 'next/dist/client/router';
 import EventContent from '../../components/event-detail/EventContent';
 import EventLogistics from '../../components/event-detail/EventLogistics';
 import EventSummary from '../../components/event-detail/EventSummary';
 
-import { getEventById } from '../../dummy-data';
+import { getEventById, getAllEvents } from '../../helpers/api-utils';
 
-const EventId = () => {
+const EventId = (props) => {
 
-    const router = useRouter();
-    const eventId = router.query.eventid;
-    
-    const eventData = getEventById(eventId);
+    const { eventData } = props;
 
     if(!eventData) {
         return <p>Event not found!</p>
@@ -26,6 +22,35 @@ const EventId = () => {
             </EventContent>
         </Fragment>
     )
+}
+
+export const getStaticProps = async (context) => {
+
+    const eventId = context.params.eventid;
+
+    const eventData = await getEventById(eventId);
+
+    return {
+        props: {
+            eventData,
+        }
+    }
+
+}
+
+export const getStaticPaths = async () => {
+
+    const allEvents = await getAllEvents();
+
+    const mappedPaths = allEvents.map(event => {
+        return { params: {eventid: event.id} }
+    })
+
+    return {
+        paths: mappedPaths,
+        fallback: false
+    }
+
 }
 
 export default EventId
